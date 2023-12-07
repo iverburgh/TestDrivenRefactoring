@@ -40,5 +40,19 @@ namespace TestDrivenRefactoring.Tests
             // Assert
             result.Should().Be(expectedResult);
         }
+
+        [Theory]
+        [InlineData(40, 18)]
+        [InlineData(44, 22)]
+        public void GetVolumeCredits_WhenComedyAudienceBlaat_ThenBlaat(int audienceCount, int expectedResult)
+        {
+            // Arrange
+
+            // Act
+            var result = VideoStore.GetVolumeCredits(audienceCount, PlayType.Comedy);
+
+            // Assert
+            result.Should().Be(expectedResult);
+        }
     }
 }

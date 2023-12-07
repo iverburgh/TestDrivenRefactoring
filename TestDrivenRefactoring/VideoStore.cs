@@ -35,13 +35,13 @@ namespace TestDrivenRefactoring
             return result.ToString();
         }
 
-        private static int GetVolumeCredits(int audienceCount, PlayType playType)
+        public static int GetVolumeCredits(int audienceCount, PlayType playType)
         {
             var volumeCredits = Math.Max(audienceCount - 30, 0);
             if (PlayType.Comedy == playType)
             {
-                // add extra credit for every ten comedy attendees
-                volumeCredits += (int)Math.Floor((decimal)audienceCount / 5);
+                // add extra credit for every five comedy attendees
+                volumeCredits += audienceCount / 5;
             }
             return volumeCredits;
         }
