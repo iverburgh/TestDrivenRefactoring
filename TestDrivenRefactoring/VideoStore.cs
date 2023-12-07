@@ -38,7 +38,7 @@ namespace TestDrivenRefactoring
             return result.ToString();
         }
 
-        private static int GetAmount(Play play, Performance perf)
+        private static int GetAmount(Play play, Performance performance)
         {
             int amount;
 
@@ -46,14 +46,20 @@ namespace TestDrivenRefactoring
             {
                 case PayType.Tragedy:
                     amount = 40000;
-                    if (perf.Audience > 30) amount += 1000 * (perf.Audience - 30);
+                    if (performance.Audience > 30)
+                    {
+                        amount += 1000 * (performance.Audience - 30);
+                    }
 
                     break;
 
                 case PayType.Comedy:
                     amount = 30000;
-                    if (perf.Audience > 20) amount += 10000 + 500 * (perf.Audience - 20);
-                    amount += 300 * perf.Audience;
+                    if (performance.Audience > 20)
+                    {
+                        amount += 10000 + 500 * (performance.Audience - 20);
+                    }
+                    amount += 300 * performance.Audience;
                     break;
 
                 default:
