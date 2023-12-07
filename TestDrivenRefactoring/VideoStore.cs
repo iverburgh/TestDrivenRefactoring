@@ -19,25 +19,7 @@ namespace TestDrivenRefactoring
             foreach (var perf in invoice.Performances)
             {
                 var play = plays[perf.PlayId];
-                int thisAmount;
-
-                switch (play.PayType)
-                {
-                    case PayType.Tragedy:
-                        thisAmount = 40000;
-                        if (perf.Audience > 30) thisAmount += 1000 * (perf.Audience - 30);
-
-                        break;
-
-                    case PayType.Comedy:
-                        thisAmount = 30000;
-                        if (perf.Audience > 20) thisAmount += 10000 + 500 * (perf.Audience - 20);
-                        thisAmount += 300 * perf.Audience;
-                        break;
-
-                    default:
-                        throw new Exception($"unknown type: {play.PayType}");
-                }
+                var thisAmount = GetAmount(play, perf);
 
                 // add volume credits
                 volumeCredits += Math.Max(perf.Audience - 30, 0);
@@ -55,6 +37,31 @@ namespace TestDrivenRefactoring
             result.Append($"You earned {volumeCredits} credits");
             return result.ToString();
         }
+
+        private static int GetAmount(Play play, Performance perf)
+        {
+            int thisAmount;
+
+            switch (play.PayType)
+            {
+                case PayType.Tragedy:
+                    thisAmount = 40000;
+                    if (perf.Audience > 30) thisAmount += 1000 * (perf.Audience - 30);
+
+                    break;
+
+                case PayType.Comedy:
+                    thisAmount = 30000;
+                    if (perf.Audience > 20) thisAmount += 10000 + 500 * (perf.Audience - 20);
+                    thisAmount += 300 * perf.Audience;
+                    break;
+
+                default:
+                    throw new Exception($"unknown type: {play.PayType}");
+            }
+
+            return thisAmount;
+        }
     }
 
     public enum PayType : byte
@@ -62,7 +69,6 @@ namespace TestDrivenRefactoring
         Tragedy,
         Comedy
     }
-
 
     public class Play
     {

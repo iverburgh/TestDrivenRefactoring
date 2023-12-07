@@ -20,19 +20,19 @@ namespace TestDrivenRefactoring.Tests
             {
                 {"hamlet", new Play("Hamlet", PayType.Tragedy)},
                 {"as-like", new Play("As You Like It", PayType.Comedy)},
-                {"othello", new Play("Othello", PayType.Tragedy)}
+                {"othello", new Play("Othello", PayType.Tragedy)},
             }.ToImmutableDictionary();
 
             var invoice = new Invoice("BigCo", new List<Performance>
             {
-                new Performance("hamlet", 55),
-                new Performance("as-like", 35),
-                new Performance("othello", 40)
+                new("hamlet", 55),
+                new("as-like", 35),
+                new("othello", 40),
             });
 
-            var expectedResult = "Statement for BigCo\r\n" +
-                                 "  Hamlet: € 650,00 (55 seats)\r\n  As You Like It: € 580,00 (35 seats)\r\n  Othello: € 500,00 (40 seats)\r\n" +
-                                 "Amount owed is € 1.730,00\r\nYou earned 47 credits";
+            const string expectedResult = "Statement for BigCo\r\n" +
+                                          "  Hamlet: € 650,00 (55 seats)\r\n  As You Like It: € 580,00 (35 seats)\r\n  Othello: € 500,00 (40 seats)\r\n" +
+                                          "Amount owed is € 1.730,00\r\nYou earned 47 credits";
 
             // Act
             var result = _subject.Statement(invoice, plays);
