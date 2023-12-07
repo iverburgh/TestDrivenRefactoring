@@ -19,7 +19,7 @@ namespace TestDrivenRefactoring
             foreach (var perf in invoice.Performances)
             {
                 var play = plays[perf.PlayId];
-                var thisAmount = GetAmount(play, perf);
+                var amount = GetAmount(play, perf);
 
                 // add volume credits
                 volumeCredits += Math.Max(perf.Audience - 30, 0);
@@ -27,9 +27,9 @@ namespace TestDrivenRefactoring
                 if (PayType.Comedy == play.PayType) volumeCredits += (int)Math.Floor((decimal)perf.Audience / 5);
 
                 // print line for this order
-                result.AppendFormat(format, $"  {play.Name}: {thisAmount / 100:C}");
+                result.AppendFormat(format, $"  {play.Name}: {amount / 100:C}");
                 result.AppendLine($" ({perf.Audience} seats)");
-                totalAmount += thisAmount;
+                totalAmount += amount;
             }
 
             result.AppendFormat(format, $"Amount owed is {totalAmount / 100:C}");
@@ -40,27 +40,27 @@ namespace TestDrivenRefactoring
 
         private static int GetAmount(Play play, Performance perf)
         {
-            int thisAmount;
+            int amount;
 
             switch (play.PayType)
             {
                 case PayType.Tragedy:
-                    thisAmount = 40000;
-                    if (perf.Audience > 30) thisAmount += 1000 * (perf.Audience - 30);
+                    amount = 40000;
+                    if (perf.Audience > 30) amount += 1000 * (perf.Audience - 30);
 
                     break;
 
                 case PayType.Comedy:
-                    thisAmount = 30000;
-                    if (perf.Audience > 20) thisAmount += 10000 + 500 * (perf.Audience - 20);
-                    thisAmount += 300 * perf.Audience;
+                    amount = 30000;
+                    if (perf.Audience > 20) amount += 10000 + 500 * (perf.Audience - 20);
+                    amount += 300 * perf.Audience;
                     break;
 
                 default:
                     throw new Exception($"unknown type: {play.PayType}");
             }
 
-            return thisAmount;
+            return amount;
         }
     }
 
