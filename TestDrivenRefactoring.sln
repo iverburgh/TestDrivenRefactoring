@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34322.80
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDrivenRefactoring", "TestDrivenRefactoring\TestDrivenRefactoring.csproj", "{719E08EA-E0CA-4CAC-97F6-0E4176DF1811}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDrivenRefactoring.Tests", "TestDrivenRefactoring.Tests\TestDrivenRefactoring.Tests.csproj", "{F302011B-C371-4208-911F-97D82E770121}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{719E08EA-E0CA-4CAC-97F6-0E4176DF1811}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{719E08EA-E0CA-4CAC-97F6-0E4176DF1811}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{719E08EA-E0CA-4CAC-97F6-0E4176DF1811}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{719E08EA-E0CA-4CAC-97F6-0E4176DF1811}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F302011B-C371-4208-911F-97D82E770121}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F302011B-C371-4208-911F-97D82E770121}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F302011B-C371-4208-911F-97D82E770121}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F302011B-C371-4208-911F-97D82E770121}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7CA85383-0841-4417-BF07-CE408D9E01C8}
+	EndGlobalSection
+EndGlobal
