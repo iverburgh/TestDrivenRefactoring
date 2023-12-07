@@ -8,10 +8,10 @@ namespace TestDrivenRefactoring
 {
     public class VideoStore
     {
-        private List<IPlayTypePriceCalculator> _playTypePriceCalculatorList = new()
+        private readonly Dictionary<PlayType, IPlayTypePriceCalculator> _playTypePriceCalculatorDictionary = new()
         {
-            new ComedyPriceCalculator(),
-            new TragedyPriceCalculator(),
+            {PlayType.Comedy, new ComedyPriceCalculator()},
+            {PlayType.Tragedy, new TragedyPriceCalculator()},
         };
 
         public string Statement(Invoice invoice, IReadOnlyDictionary<string, Play> plays)
@@ -55,10 +55,11 @@ namespace TestDrivenRefactoring
 
         private int GetAmount(Play play, Performance performance)
         {
-            var playTypePriceCalculator = _playTypePriceCalculatorList
-                .FirstOrDefault(ptpc => ptpc.PlayType == play.PlayType);
-            return playTypePriceCalculator?.GetCalculatedPrice(performance.Audience)
-                   ?? throw new Exception($"unknown type: {play.PlayType}");
+            if (_playTypePriceCalculatorDictionary.TryGetValue(play.PlayType, out var playTypePriceCalculator))
+            {
+                return playTypePriceCalculator.GetCalculatedPrice(performance.Audience);
+            }
+            throw new Exception($"unknown type: {play.PlayType}");
         }
     }
 
