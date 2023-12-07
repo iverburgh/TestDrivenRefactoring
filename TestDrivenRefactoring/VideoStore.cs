@@ -8,6 +8,12 @@ namespace TestDrivenRefactoring
 {
     public class VideoStore
     {
+        private List<IPlayTypePriceCalculator> _playTypePriceCalculatorList = new()
+        {
+            new ComedyPriceCalculator(),
+            new TragedyPriceCalculator(),
+        };
+
         public string Statement(Invoice invoice, IReadOnlyDictionary<string, Play> plays)
         {
             int totalAmount = 0;
@@ -47,27 +53,12 @@ namespace TestDrivenRefactoring
             return volumeCredits;
         }
 
-        private static int GetAmount(Play play, Performance performance)
+        private int GetAmount(Play play, Performance performance)
         {
-            int amount;
-
-            switch (play.PlayType)
-            {
-                case PlayType.Tragedy:
-                    var tragedyAmountCalculator = new TragedyAmountCalculator();
-                    amount = tragedyAmountCalculator.CalculateAmount(performance.Audience);
-                    break;
-
-                case PlayType.Comedy:
-                    var comedyPriceCalculator = new ComedyPriceCalculator();
-                    amount = comedyPriceCalculator.CalculateAmount(performance.Audience);
-                    break;
-
-                default:
-                    throw new Exception($"unknown type: {play.PlayType}");
-            }
-
-            return amount;
+            var playTypePriceCalculator = _playTypePriceCalculatorList
+                .FirstOrDefault(ptpc => ptpc.PlayType == play.PlayType);
+            return playTypePriceCalculator?.GetCalculatedPrice(performance.Audience)
+                   ?? throw new Exception($"unknown type: {play.PlayType}");
         }
     }
 

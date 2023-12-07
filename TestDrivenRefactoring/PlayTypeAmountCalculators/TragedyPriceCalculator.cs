@@ -1,8 +1,8 @@
 ﻿namespace TestDrivenRefactoring.PlayTypeAmountCalculators
 {
-    public class TragedyAmountCalculator : IPlayTypeAmountCalculator
+    public class TragedyPriceCalculator : IPlayTypePriceCalculator
     {
-        public int CalculateAmount(int audienceCount)
+        public int GetCalculatedPrice(int audienceCount)
         {
             var amount = 40000;
             if (audienceCount > 30)
@@ -12,5 +12,7 @@
 
             return amount;
         }
+
+        public PlayType PlayType => PlayType.Tragedy;
     }
 }
