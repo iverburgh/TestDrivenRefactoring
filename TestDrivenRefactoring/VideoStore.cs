@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Text;
 using System.Text.Json.Serialization;
+using TestDrivenRefactoring.PlayTypeAmountCalculators;
 
 namespace TestDrivenRefactoring
 {
@@ -21,7 +22,7 @@ namespace TestDrivenRefactoring
                 var play = plays[perf.PlayId];
                 var amount = GetAmount(play, perf);
 
-                volumeCredits += GetVolumeCredits(perf.Audience, play.PayType);
+                volumeCredits += GetVolumeCredits(perf.Audience, play.PlayType);
 
                 // print line for this order
                 result.AppendFormat(format, $"  {play.Name}: {amount / 100:C}");
@@ -50,28 +51,20 @@ namespace TestDrivenRefactoring
         {
             int amount;
 
-            switch (play.PayType)
+            switch (play.PlayType)
             {
                 case PlayType.Tragedy:
-                    amount = 40000;
-                    if (performance.Audience > 30)
-                    {
-                        amount += 1000 * (performance.Audience - 30);
-                    }
-
+                    var tragedyAmountCalculator = new TragedyAmountCalculator();
+                    amount = tragedyAmountCalculator.CalculateAmount(performance.Audience);
                     break;
 
                 case PlayType.Comedy:
-                    amount = 30000;
-                    if (performance.Audience > 20)
-                    {
-                        amount += 10000 + 500 * (performance.Audience - 20);
-                    }
-                    amount += 300 * performance.Audience;
+                    var comedyPriceCalculator = new ComedyPriceCalculator();
+                    amount = comedyPriceCalculator.CalculateAmount(performance.Audience);
                     break;
 
                 default:
-                    throw new Exception($"unknown type: {play.PayType}");
+                    throw new Exception($"unknown type: {play.PlayType}");
             }
 
             return amount;
@@ -87,12 +80,12 @@ namespace TestDrivenRefactoring
     public class Play
     {
         public string Name { get; }
-        public PlayType PayType { get; }
+        public PlayType PlayType { get; }
 
         public Play(string name, PlayType payType)
         {
             Name = name;
-            PayType = payType;
+            PlayType = payType;
         }
     }
 
