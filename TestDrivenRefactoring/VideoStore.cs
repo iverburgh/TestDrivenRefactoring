@@ -21,7 +21,7 @@ namespace TestDrivenRefactoring
                 var play = plays[perf.PlayId];
                 var amount = GetAmount(play, perf);
 
-                volumeCredits += GetVolumeCredits(perf, play);
+                volumeCredits += GetVolumeCredits(perf.Audience, play.PayType);
 
                 // print line for this order
                 result.AppendFormat(format, $"  {play.Name}: {amount / 100:C}");
@@ -35,11 +35,14 @@ namespace TestDrivenRefactoring
             return result.ToString();
         }
 
-        private static int GetVolumeCredits(Performance perf, Play play)
+        private static int GetVolumeCredits(int audienceCount, PlayType playType)
         {
-            var volumeCredits = Math.Max(perf.Audience - 30, 0);
-            // add extra credit for every ten comedy attendees
-            if (PayType.Comedy == play.PayType) volumeCredits += (int)Math.Floor((decimal)perf.Audience / 5);
+            var volumeCredits = Math.Max(audienceCount - 30, 0);
+            if (PlayType.Comedy == playType)
+            {
+                // add extra credit for every ten comedy attendees
+                volumeCredits += (int)Math.Floor((decimal)audienceCount / 5);
+            }
             return volumeCredits;
         }
 
@@ -49,7 +52,7 @@ namespace TestDrivenRefactoring
 
             switch (play.PayType)
             {
-                case PayType.Tragedy:
+                case PlayType.Tragedy:
                     amount = 40000;
                     if (performance.Audience > 30)
                     {
@@ -58,7 +61,7 @@ namespace TestDrivenRefactoring
 
                     break;
 
-                case PayType.Comedy:
+                case PlayType.Comedy:
                     amount = 30000;
                     if (performance.Audience > 20)
                     {
@@ -75,7 +78,7 @@ namespace TestDrivenRefactoring
         }
     }
 
-    public enum PayType : byte
+    public enum PlayType : byte
     {
         Tragedy,
         Comedy
@@ -84,9 +87,9 @@ namespace TestDrivenRefactoring
     public class Play
     {
         public string Name { get; }
-        public PayType PayType { get; }
+        public PlayType PayType { get; }
 
-        public Play(string name, PayType payType)
+        public Play(string name, PlayType payType)
         {
             Name = name;
             PayType = payType;

@@ -18,9 +18,9 @@ namespace TestDrivenRefactoring.Tests
             // Arrange
             var plays = new Dictionary<string, Play>
             {
-                {"hamlet", new Play("Hamlet", PayType.Tragedy)},
-                {"as-like", new Play("As You Like It", PayType.Comedy)},
-                {"othello", new Play("Othello", PayType.Tragedy)},
+                {"hamlet", new Play("Hamlet", PlayType.Tragedy)},
+                {"as-like", new Play("As You Like It", PlayType.Comedy)},
+                {"othello", new Play("Othello", PlayType.Tragedy)},
             }.ToImmutableDictionary();
 
             var invoice = new Invoice("BigCo", new List<Performance>
