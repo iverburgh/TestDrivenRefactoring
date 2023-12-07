@@ -21,10 +21,7 @@ namespace TestDrivenRefactoring
                 var play = plays[perf.PlayId];
                 var amount = GetAmount(play, perf);
 
-                // add volume credits
-                volumeCredits += Math.Max(perf.Audience - 30, 0);
-                // add extra credit for every ten comedy attendees
-                if (PayType.Comedy == play.PayType) volumeCredits += (int)Math.Floor((decimal)perf.Audience / 5);
+                volumeCredits += GetVolumeCredits(perf, play);
 
                 // print line for this order
                 result.AppendFormat(format, $"  {play.Name}: {amount / 100:C}");
@@ -36,6 +33,14 @@ namespace TestDrivenRefactoring
             result.AppendLine("");
             result.Append($"You earned {volumeCredits} credits");
             return result.ToString();
+        }
+
+        private static int GetVolumeCredits(Performance perf, Play play)
+        {
+            var volumeCredits = Math.Max(perf.Audience - 30, 0);
+            // add extra credit for every ten comedy attendees
+            if (PayType.Comedy == play.PayType) volumeCredits += (int)Math.Floor((decimal)perf.Audience / 5);
+            return volumeCredits;
         }
 
         private static int GetAmount(Play play, Performance performance)
